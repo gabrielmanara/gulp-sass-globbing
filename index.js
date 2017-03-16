@@ -79,12 +79,7 @@ module.exports = function(file, options) {
         } else {
           var cwdfile = filename.replace(filename.split(cwd)[0], '');
         }
-        
-        
-
-        console.log(cwdfile);
-        console.log(cwd);
-        
+       
         var importname = (cwdfile.replace(/\.(scss|sass)$/, '')).replace('/_', '/');
         if (importname.charAt(0) === '/') {
           importname = importname.substr(1);
@@ -92,9 +87,6 @@ module.exports = function(file, options) {
 
         // Add import statement.
         imports = imports + '@import ' + quoteSymbol + slash(importname) + quoteSymbol + ';\n';
-        // console.log('imports', imports);
-        // console.log('quoteSymbol', quoteSymbol);
-        // console.log('slash(importname)', slash(importname));
       }
 
       callback();
