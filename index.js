@@ -22,8 +22,8 @@ module.exports = function(file, options) {
     throw new PluginError('gulp-sass-globbing', 'Missing file option.');
   }
 
-  options = options || {};
 
+  options = options || {};
 
   // Merge options with these defaults.
   defaults = {
@@ -59,7 +59,6 @@ module.exports = function(file, options) {
       return callback(null, file);
     }
 
-
     // Complete files required, so streams are not supported.
     if (file.isStream()) {
       this.emit('error', new PluginError('gulp-sass-globbing', 'Streams not supported.'));
@@ -70,20 +69,16 @@ module.exports = function(file, options) {
       if (ext.toLowerCase() == '.scss' || ext.toLowerCase() == '.sass') {
         // Remove the parent file base path from the path we will output.
         var filename = path.normalize(file.path);
-        var cwd = path.normalize(file.cwd);
 
-        if(cwd.includes('../')) {
-          var newCwd = cwd.split('.').join("");
-          var cwdfile = filename.replace(filename.split(newCwd)[0], '');
-          cwdfile = '..' + cwdfile;
-        } else {
-          var cwdfile = filename.replace(filename.split(cwd)[0], '');
-        }
-       
-        var importname = (cwdfile.replace(/\.(scss|sass)$/, '')).replace('/_', '/');
+        var importname = path.relative(options.destination, path.parse(path.dirname(file.path)).dir);
+        importname += file.path.replace(path.parse(path.dirname(file.path)).dir, '');
+        
         if (importname.charAt(0) === '/') {
           importname = importname.substr(1);
         }
+
+        importname = (importname.replace(/\.(scss|sass)$/, '')).replace('/_', '/');
+
 
         // Add import statement.
         imports = imports + '@import ' + quoteSymbol + slash(importname) + quoteSymbol + ';\n';
