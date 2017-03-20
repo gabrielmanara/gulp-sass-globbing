@@ -28,7 +28,7 @@ module.exports = function(file, options) {
   // Merge options with these defaults.
   defaults = {
     useSingleQuotes: false,
-    signature: '/* generated with gulp-sass-globbing */'
+    signature: '// This is an generated file'
   }
   if (!("useSingleQuotes" in options)) {
     options.useSingleQuotes = defaults.useSingleQuotes;
